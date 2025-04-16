@@ -2,6 +2,7 @@ import os
 import streamlit as st
 import chardet
 from text_splitter import clean_text_and_split  # text_splitter.py에서 함수 가져오기
+from langchain_core.documents import Document
 
 from langchain_openai import OpenAIEmbeddings, ChatOpenAI
 from langchain_chroma import Chroma
@@ -31,7 +32,9 @@ def load_txt(raw_data):
 # 텍스트 정제 및 분할
 # TextSplitter 역할
 def text_splitter(_raw_text):
-    return clean_text_and_split(_raw_text) # Document 객체 return
+    cleaned_chunks = clean_text_and_split(_raw_text)
+    docs = [Document(page_content=text) for text in cleaned_chunks]
+    return  docs # Document 객체 return
 
 # 시스템 프롬프트 가져오기
 def get_system_prompt():
@@ -156,4 +159,3 @@ if uploaded_file is not None:
                 response = rag_chain.invoke(prompt_message)
                 st.session_state.messages.append({"role": "assistant", "content": response})
                 st.write(response)
-
