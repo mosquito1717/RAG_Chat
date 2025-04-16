@@ -1,6 +1,5 @@
 import re
 from langchain.text_splitter import TextSplitter
-from langchain_core.documents import Document
 
 class TimestampTextSplitter(TextSplitter):
     def split_text(self, text: str):
@@ -47,6 +46,7 @@ def clean_text_and_split(text):
     
     
     # 텍스트 리스트를 Document 객체 리스트로 변환
-    docs = [Document(page_content=text) for text in cleaned_chunks]
+    #docs = [Document(page_content=text) for text in cleaned_chunks]
 
-    return docs
+    #return docs
+    return cleaned_chunks
